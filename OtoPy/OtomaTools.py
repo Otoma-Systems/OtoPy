@@ -6,7 +6,20 @@ class OProgressBar():
     fill = "█"
     printEnd = "\r"
 
-    def __init__(self, completeState):
+    def __init__(self, completeState, **kargs):
+        if prefix: 
+            self.prefix = prefix
+        if suffix:
+            self.suffix = suffix
+        if decimalPlaces:
+            self.decimalPlaces = decimalPlaces
+        if length:
+            self.length = length
+        if fill:
+            self.fill = fill
+        if printEnd:
+            self.printEnd = printEnd
+            
         self.completeState = completeState
 
     def PrintProgess(self, progressState):
