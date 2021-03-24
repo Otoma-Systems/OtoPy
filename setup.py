@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='OtoPy',
-    version='0.1.1',    
+    version='0.1.2',    
     description='Custom Lib Containing usefool Tools ins class construction',
     url='https://github.com/MathWintruff/OtoPy.git',
     author='Otoma Systems',
@@ -12,10 +12,8 @@ setup(
     install_requires=[],
 
     classifiers=[
-        'Development Status :: OnGoing Project',
-        'Intended Audience :: Any Python Programer',
-        'License :: OSI Approved :: BSD License',  
-        'Operating System :: any :: any',        
+        'Development Status :: 1 - Planning',
+        'License :: OSI Approved :: BSD License',        
         'Programming Language :: Python :: 3',
     ],
 )
