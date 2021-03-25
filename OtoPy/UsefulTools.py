@@ -33,6 +33,7 @@ class OProgressBar():
 class OLogger():
     import logging
     from pathlib import Path
+    import __main__
     import traceback
     from datetime import datetime
 
@@ -41,11 +42,12 @@ class OLogger():
     dateFormat = "%Y-%m-%d|%H:%M:%S"
     logging.basicConfig(level=logging.NOTSET, format=logFormat, datefmt=dateFormat)
     logTime = datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
-    mainPyScriptName = str(Path(__file__).stem)
+    mainPyScriptName = str(Path(__main__.__file__).stem)
+    mainPyScriptPath = str(Path(__main__.__file__)).replace(f"{Path(__main__.__file__).stem}.py","")
     level = logging
 
-    def __init__(self, *, streamLoggin = True, fileLoggin = False, logFileName = mainPyScriptName, logFileLevel = "NOTSET", showLoggerNameOnFile = False):
-        self.logger = self.logging.getLogger(f"{logFileName}_Logger" if logFileName == self.mainPyScriptName else logFileName)
+    def __init__(self, *, streamLoggin = True, fileLoggin = False, loggerName = mainPyScriptName, logFileLevel = "NOTSET", showLoggerNameOnFile = False):
+        self.logger = self.logging.getLogger(f"{loggerName}_Logger" if loggerName == self.mainPyScriptName else loggerName)
 
         logLevelList = {
             "NOTSET": self.logging.NOTSET,
@@ -62,17 +64,17 @@ class OLogger():
                 import os
                 folderCreationFlag = False
 
-                if "Logs" not in list(os.listdir('.')):
-                    os.mkdir("Logs")
+                if "Logs" not in list(os.listdir(self.mainPyScriptPath)):
+                    os.mkdir(f"{self.mainPyScriptPath}Logs")
                     folderCreationFlag = True
 
-                fileHandler = self.logging.FileHandler(f"./Logs/{self.mainPyScriptName}-{self.logTime}.log")
+                fileHandler = self.logging.FileHandler(f"{self.mainPyScriptPath}/Logs/{self.mainPyScriptName}-{self.logTime}.log")
                 fileHandler.setLevel(logLevelList[logFileLevel])
                 fileHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerNameOnFile else self.logFormatWLoggerName, datefmt=self.dateFormat))
                 self.logger.addHandler(fileHandler)
 
                 if folderCreationFlag == True:
-                    self.LogAnInfo("Logs Folder was created!")
+                    self.LogInfo("Logs Folder was created!")
 
             except Exception:
                 print(self.traceback.format_exc())

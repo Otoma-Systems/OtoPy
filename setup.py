@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='OtoPy',
-    version='1.1.0',    
+    version='1.1.1',    
     description='A Otoma Systems developed Lib, Containing useful Tools',
     url='https://github.com/Otoma-Systems/OtoPy.git',
     author='Otoma Systems',
