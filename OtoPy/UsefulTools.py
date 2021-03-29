@@ -27,6 +27,58 @@ class OProgressBar():
         # Print New Line on Complete
         if progressState == self.completeState: 
             print()
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+class OTimedProgressBar():
+    from timeit import default_timer as timer
+    from datetime import timedelta
+
+    def __init__(
+        self,
+        completeState = 100,
+        *,
+        prefix = "Progress: ",
+        suffix = "Complete",
+        length = 60,
+        decimalPlaces = 1,
+        fill = "█",
+        printEnd= "\r",
+        Etc = False,
+        EtcText = "Etc: ",
+        elapsedTimeText = "Elapsed Time: "
+    ):
+
+        self.completeState = completeState
+        self.prefix = prefix
+        self.suffix = suffix
+        self.length = length
+        self.decimalPlaces = decimalPlaces
+        self.fill = fill
+        self.printEnd = printEnd
+        self.EtcText = EtcText
+        self.elapsedTimeText = elapsedTimeText
+        self.FirstTime = True
+        self.InitialTime = self.timer()
+        self.FinalTime = self.timer()
+        self.Etc = Etc
+
+    def PrintProgress(self, progressState):
+        if self.FirstTime: 
+            self.InitialTime = self.timer()
+            self.FirstTime = False
+        else:
+            EtcTime = (((self.timedelta(seconds=self.timer()-self.InitialTime))/progressState)*(self.completeState-progressState))
+
+        percent = ("{0:." + str(self.decimalPlaces) + "f}").format(100 * (progressState / float(self.completeState)))
+        filledLength = int(self.length * progressState // self.completeState)
+        bar = self.fill * filledLength + '-' * (self.length - filledLength)
+        print(f'\r{self.prefix}|{bar}| {percent}% {self.suffix} | {(self.EtcText+str(EtcTime)) if self.Etc else ""}', end = self.printEnd)
+        
+        # Print New Line on Complete
+        if progressState == self.completeState: 
+            self.FinalTime = self.timer()
+            print(f'\r{self.prefix}|{self.fill*self.length}| 100% {self.suffix} | {self.elapsedTimeText}{self.timedelta(seconds=self.FinalTime-self.InitialTime)}\n')
+            self.FirstTime = True
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
 
