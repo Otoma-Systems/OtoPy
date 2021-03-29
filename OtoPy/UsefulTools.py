@@ -59,13 +59,14 @@ class OTimedProgressBar():
         self.elapsedTimeText = elapsedTimeText
         self.FirstTime = True
         self.InitialTime = self.timer()
-        self.FinalTime = self.timer()
         self.Etc = Etc
+        self.lastElapsedTime = "!No time registred yet!"
 
     def PrintProgress(self, progressState):
         if self.FirstTime: 
             self.InitialTime = self.timer()
             self.FirstTime = False
+            EtcTime = None
         else:
             EtcTime = (((self.timedelta(seconds=self.timer()-self.InitialTime))/progressState)*(self.completeState-progressState))
 
@@ -76,9 +77,12 @@ class OTimedProgressBar():
         
         # Print New Line on Complete
         if progressState == self.completeState: 
-            self.FinalTime = self.timer()
-            print(f'\r{self.prefix}|{self.fill*self.length}| 100% {self.suffix} | {self.elapsedTimeText}{self.timedelta(seconds=self.FinalTime-self.InitialTime)}\n')
+            self.lastElapsedTime = self.timer()-self.InitialTime
+            print(f'\r{self.prefix}|{self.fill*self.length}| 100% {self.suffix} | {self.elapsedTimeText}{self.timedelta(seconds=self.lastElapsedTime)}\n')
             self.FirstTime = True
+
+    def GetLasElapsedTime(self):
+        return self.lastElapsedTime
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
 
@@ -148,3 +152,6 @@ class OLogger():
 
     def LogExceptError(self, errorMessege):
         self.logger.critical(f"{errorMessege}: {self.traceback.format_exc()}")  
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------#
+
