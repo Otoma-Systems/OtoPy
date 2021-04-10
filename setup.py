@@ -6,7 +6,7 @@ setup(
     description='A Otoma Systems developed Lib, Containing useful Tools',
     url='https://github.com/Otoma-Systems/OtoPy.git',
     author='Otoma Systems',
-    author_email='otoma.system@gmail.com',
+    author_email='otoma.systems@gmail.com',
     license='BSD 2-clause',
     packages=['OtoPy'],
     install_requires=[],
