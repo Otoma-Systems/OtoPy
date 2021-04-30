@@ -96,14 +96,13 @@ class OLogger():
     logFormat = "%(asctime)s:%(msecs)d -- %(levelname)s -- %(message)s"
     logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
     dateFormat = "%Y-%m-%d|%H:%M:%S"
-    logging.basicConfig(level=logging.NOTSET, format=logFormat, datefmt=dateFormat)
     logTime = datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
     mainPyScriptName = str(Path(__main__.__file__).stem)
     mainPyScriptPath = str(Path(__main__.__file__)).replace(f"{Path(__main__.__file__).stem}.py","")
-    level = logging
 
     def __init__(self, *, streamLoggin = True, fileLoggin = False, loggerName = mainPyScriptName, logFileLevel = "NOTSET", showLoggerNameOnFile = False):
         self.logger = self.logging.getLogger(f"{loggerName}_Logger" if loggerName == self.mainPyScriptName else loggerName)
+        self.logger.propagate = False
 
         logLevelList = {
             "NOTSET": self.logging.NOTSET,
@@ -125,9 +124,10 @@ class OLogger():
                     folderCreationFlag = True
 
                 fileHandler = self.logging.FileHandler(f"{self.mainPyScriptPath}/Logs/{self.mainPyScriptName}-{self.logTime}.log")
-                fileHandler.setLevel(logLevelList[logFileLevel])
                 fileHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerNameOnFile else self.logFormatWLoggerName, datefmt=self.dateFormat))
+                fileHandler.setLevel(logLevelList[logFileLevel])
                 self.logger.addHandler(fileHandler)
+                print(self.logger.handlers())
 
                 if folderCreationFlag == True:
                     self.LogInfo("Logs Folder was created!")
@@ -135,8 +135,11 @@ class OLogger():
             except Exception:
                 print(self.traceback.format_exc())
 
-        if not streamLoggin:
-            self.logger.propagate = False
+        if streamLoggin:
+            streamHandler = self.logging.StreamHandler()
+            streamHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerNameOnFile else self.logFormatWLoggerName, datefmt=self.dateFormat))
+            streamHandler.setLevel(logLevelList[logFileLevel])
+            self.logger.addHandler(streamHandler)
 
     def LogDebug(self, infoMessege):
         self.logger.debug(infoMessege)
