@@ -96,14 +96,16 @@ class OLogger():
     logFormat = "%(asctime)s:%(msecs)d -- %(levelname)s -- %(message)s"
     logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
     dateFormat = "%Y-%m-%d|%H:%M:%S"
-    logging.basicConfig(level=logging.NOTSET, format=logFormat, datefmt=dateFormat)
     logTime = datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
     mainPyScriptName = str(Path(__main__.__file__).stem)
     mainPyScriptPath = str(Path(__main__.__file__)).replace(f"{Path(__main__.__file__).stem}.py","")
-    level = logging
+    
 
-    def __init__(self, *, streamLoggin = True, fileLoggin = False, loggerName = mainPyScriptName, logFileLevel = "NOTSET", showLoggerNameOnFile = False):
+    def __init__(self, *, streamLoggin = True, fileLoggin = False, loggerName = mainPyScriptName, logFileLevel = "NOTSET", logStreamLevel = "NOTSET", showLoggerName = False):
+        self.logging.getLogger().setLevel(self.logging.NOTSET)
         self.logger = self.logging.getLogger(f"{loggerName}_Logger" if loggerName == self.mainPyScriptName else loggerName)
+        self.logger.setLevel(self.logging.NOTSET)
+        self.logger.propagate = False
 
         logLevelList = {
             "NOTSET": self.logging.NOTSET,
@@ -111,9 +113,8 @@ class OLogger():
             "INFO": self.logging.INFO,
             "WARNING": self.logging.WARNING,
             "ERROR": self.logging.ERROR,
-            "CRITICAL": self.logging.CRITICAL,
+            "CRITICAL": self.logging.CRITICAL
         }
-        default = self.logging.NOTSET
 
         if fileLoggin:
             try:
@@ -125,8 +126,8 @@ class OLogger():
                     folderCreationFlag = True
 
                 fileHandler = self.logging.FileHandler(f"{self.mainPyScriptPath}/Logs/{self.mainPyScriptName}-{self.logTime}.log")
-                fileHandler.setLevel(logLevelList[logFileLevel])
-                fileHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerNameOnFile else self.logFormatWLoggerName, datefmt=self.dateFormat))
+                fileHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerName else self.logFormatWLoggerName, datefmt=self.dateFormat))
+                fileHandler.setLevel(logLevelList.setdefault(logFileLevel, self.logging.NOTSET))
                 self.logger.addHandler(fileHandler)
 
                 if folderCreationFlag == True:
@@ -135,8 +136,11 @@ class OLogger():
             except Exception:
                 print(self.traceback.format_exc())
 
-        if not streamLoggin:
-            self.logger.propagate = False
+        if streamLoggin:
+            streamHandler = self.logging.StreamHandler()
+            streamHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerName else self.logFormatWLoggerName, datefmt=self.dateFormat))
+            streamHandler.setLevel(logLevelList.setdefault(logStreamLevel, self.logging.NOTSET))
+            self.logger.addHandler(streamHandler)
 
     def LogDebug(self, infoMessege):
         self.logger.debug(infoMessege)
@@ -151,7 +155,7 @@ class OLogger():
         self.logger.error(errorMessege)
 
     def LogExceptError(self, errorMessege):
-        self.logger.critical(f"{errorMessege}: {self.traceback.format_exc()}")  
+        self.logger.critical(f"{errorMessege} - {self.traceback.format_exc()}")  
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
 
