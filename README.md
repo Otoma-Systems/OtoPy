@@ -5,9 +5,6 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Otoma-Systems/OtoPy?color=6020A5&label=Latest%20Release&logo=github)
 [![Build Status](https://github.com/Otoma-Systems/OtoPy/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Otoma-Systems/OtoPy/actions)
 
-
----
-
 # OtoPy
 
 ## Contents
@@ -26,28 +23,18 @@ pip install --upgrade OtoPy
 ```
 ___
 
-## Importing
-  ### Importing entire package:
-  ```python
-  import OtoPy
-  ```
-  in this exemple, the ***OtoPy*** Package was completly imported.
-  
-  
-  
+## Importing  
   ### Importing specific file from package:
   ```python
-  from Otopy.UsefulTools import *
+  from Otopy import UsefulTools 
   ```
-  in this exemple, the ***UsefulTools*** file was entirely imported.
-  
-  
+  in this exemple, the ***UsefulTools*** file was entirely imported. For this method of importing the class/function has to be used with the name of the file plus a "." as prefix, like: ***UsefulTools.OLogger***
   
   ### Importing specific function/class from package:
   ```python
   from Otopy.UsefulTools import OLogger
   ```
-  in this exemple, only the ***OLogger*** class from ***UsefulTools*** file was imported.
+  in this exemple, only the ***OLogger*** class from ***UsefulTools*** file was imported. For importing multiples classes/functions separate names with comma. For importing all classes/functions from the selected file use "*"
 ___
 
 ![GitHub followers](https://img.shields.io/github/followers/Otoma-Systems?style=social)
