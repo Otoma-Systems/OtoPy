@@ -1,0 +1,4 @@
+build
+dist
+OtoPy.egg-info
+/OtoPy/__pycache__/

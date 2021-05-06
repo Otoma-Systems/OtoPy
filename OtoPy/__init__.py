@@ -4,6 +4,16 @@ OtoPy.
 A Otoma Systems developed Lib, Containing useful Tools.
 """
 
-__version__ = "1.3.5"
+import subprocess
+import os
+
+OtoPyVersion = (
+    subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
+    .stdout.decode("utf-8")
+    .strip()
+)
+assert "." in OtoPyVersion
+
+__version__ = OtoPyVersion
 __author__ = 'Otoma Systems'
 __name__="OtoPy"

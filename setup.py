@@ -1,12 +1,21 @@
 from setuptools import setup
+import subprocess
+import os
+
+OtoPyVersion = (
+    subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
+    .stdout.decode("utf-8")
+    .strip()
+)
+assert "." in OtoPyVersion
 
 setup(
     name='OtoPy',
-    version='1.3.5',    
-    description='A Otoma Systems developed Lib, Containing useful Tools',
+    version=OtoPyVersion,    
+    description='A Otoma Systems developed Lib, Containing useful Tools and More',
     url='https://github.com/Otoma-Systems/OtoPy.git',
     author='Otoma Systems',
-    author_email='otoma.systems@gmail.com',
+    author_email='support@otoma.com.br',
     license='BSD 2-clause',
     packages=['OtoPy'],
     install_requires=[],
