@@ -142,19 +142,19 @@ class OLogger():
             streamHandler.setLevel(logLevelList.setdefault(logStreamLevel, self.logging.NOTSET))
             self.logger.addHandler(streamHandler)
 
-    def LogDebug(self, infoMessege):
+    def LogDebug(self, infoMessege = ""):
         self.logger.debug(infoMessege)
 
-    def LogInfo(self, infoMessege):
+    def LogInfo(self, infoMessege = ""):
         self.logger.info(infoMessege)
 
-    def LogWarning(self, WarningMessege):
+    def LogWarning(self, WarningMessege = ""):
         self.logger.warning(WarningMessege)
 
-    def LogError(self, errorMessege):
+    def LogError(self, errorMessege = ""):
         self.logger.error(errorMessege)
 
-    def LogExceptError(self, errorMessege):
+    def LogExceptError(self, errorMessege = ""):
         self.logger.critical(f"{errorMessege} - {self.traceback.format_exc()}")  
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
