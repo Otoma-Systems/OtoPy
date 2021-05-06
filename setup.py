@@ -9,13 +9,18 @@ OtoPyVersion = (
 )
 assert "." in OtoPyVersion
 
+with open("README.md", "r", encoding="utf-8") as READMEfile:
+    long_description = READMEfile.read()
+
 setup(
     name='OtoPy',
     version=OtoPyVersion,    
-    description='A Otoma Systems developed Lib, Containing useful Tools and More',
+    description='A Otoma Systems developed Lib Containing useful Tools and More',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url='https://github.com/Otoma-Systems/OtoPy.git',
     author='Otoma Systems',
-    author_email='support@otoma.com.br',
+    author_email='contact@otoma.com.br',
     license='BSD 2-clause',
     packages=['OtoPy'],
     install_requires=[],
