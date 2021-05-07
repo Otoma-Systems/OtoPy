@@ -167,14 +167,12 @@ class OMailLogger():
     import traceback
     from datetime import datetime
 
-    logFormat = "%(asctime)s:%(msecs)d -- %(levelname)s -- %(message)s"
-    logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
-    dateFormat = "%Y-%m-%d|%H:%M:%S"
-    logTime = datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
+    logFormat = "%(asctime)s -- %(levelname)s:\n%(message)s"
+    logFormatWLoggerName = "%(asctime)s -- %(name)s - %(levelname)s:\n%(message)s"
+    dateFormat = "Date: %Y-%m-%d - Time: %H:%M:%S"
     mainPyScriptName = str(Path(__main__.__file__).stem)
-    mainPyScriptPath = str(Path(__main__.__file__)).replace(f"{Path(__main__.__file__).stem}.py","")
 
-    def __init__(self, *, loggerName = mainPyScriptName, loggingLevel = "NOTSET", showLoggerName = False):
+    def __init__(self, toAddrs, subject, *, loggerName = mainPyScriptName, showLoggerName = False, loggingLevel = "NOTSET", configDict = "defaultConfig"):
         self.logging.getLogger().setLevel(self.logging.NOTSET)
         self.smtpLogger = self.logging.getLogger(f"{loggerName}_Logger" if loggerName == self.mainPyScriptName else loggerName)
         self.smtpLogger.setLevel(self.logging.NOTSET)
@@ -189,10 +187,33 @@ class OMailLogger():
             "CRITICAL": self.logging.CRITICAL
         }
 
-        smtpHandler = self.SMTPHandler(("smtp.gmail.com",587), "otoma.systems@gmail.com", "mathwintruffac@gmail.com", "just a teste of the smtp handler in logging", ("otoma.systems@gmail.com", "Otoma197346"), ())
+        if configDict == "defaultConfig":
+            smtpConfigDict = {
+                "mailhost": ("smtp.gmail.com",587),
+                "originAddrs": "otoma.logger@gmail.com",
+                "auth": ("otoma.logger@gmail.com", "OtomaLogger01"),
+                "tls": (),
+            }
+        else: smtpConfigDict = configDict
+
+        smtpHandler = self.SMTPHandler(smtpConfigDict.get("mailhost"), smtpConfigDict.get("originAddrs"), toAddrs, subject, smtpConfigDict.get("auth"), smtpConfigDict.get("tls"))
+        smtpHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerName else self.logFormatWLoggerName, datefmt=self.dateFormat))
+        smtpHandler.setLevel(logLevelList.setdefault(loggingLevel, self.logging.NOTSET))
         self.smtpLogger.addHandler(smtpHandler)
 
-    def SendEmail(self):
-        self.smtpLogger.warning("corpo da mensagem?")
+    def SendDebugEmail(self, mailBody = "Debug Email"):
+        self.smtpLogger.debug(mailBody)
+
+    def SendInfoEmail(self, mailBody = "Info Email"):
+        self.smtpLogger.info(mailBody)
+
+    def SendWarningEmail(self, mailBody = "Warningn Email"):
+        self.smtpLogger.warning(mailBody)
+
+    def SendErrorEmail(self, mailBody = "Error Email"):
+        self.smtpLogger.error(mailBody)
+
+    def SendExceptionErrorEmail(self, mailBody = "Exception Error Email"):
+        self.smtpLogger.critical(f"{mailBody}\n{self.traceback.format_exc()}")
 
     
