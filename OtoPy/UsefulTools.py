@@ -98,7 +98,7 @@ class OLogger():
         logFormat = "%(asctime)s:%(msecs)d -- %(levelname)s -- %(message)s"
         logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
         dateFormat = "%Y-%m-%d|%H:%M:%S"
-        logTime = datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
+        logTime = self.datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
 
         if loggerName == "pyScriptName":
             self.loggerName = f"{str(Path(__main__.__file__).stem)}_Logger"
