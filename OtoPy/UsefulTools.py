@@ -94,14 +94,14 @@ class OLogger():
     from datetime import datetime
     
 
-    def __init__(self, *, streamLoggin = True, fileLoggin = False, loggerName = "pyScriptName", logFileLevel = "NOTSET", logStreamLevel = "NOTSET", showLoggerName = False):
+    def __init__(self, *, streamLogging = True, fileLogging = False, loggerName = "pyScriptName", logFileLevel = "NOTSET", logStreamLevel = "NOTSET", showLoggerName = False):
         logFormat = "%(asctime)s:%(msecs)d -- %(levelname)s -- %(message)s"
         logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
         dateFormat = "%Y-%m-%d|%H:%M:%S"
         logTime = self.datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
 
         if loggerName == "pyScriptName":
-            self.loggerName = f"{str(Path(__main__.__file__).stem)}_Logger"
+            self.loggerName = f"{str(self.Path(self.__main__.__file__).stem)}_Logger"
         else: self.loggerName = loggerName
 
 
@@ -119,19 +119,19 @@ class OLogger():
             "CRITICAL": self.logging.CRITICAL
         }
 
-        if fileLoggin:
+        if fileLogging:
             try:
                 import os
                 folderCreationFlag = False
 
-                self.mainPyScriptPath = str(Path(__main__.__file__)).replace(f"{Path(__main__.__file__).stem}.py","")
+                self.mainPyScriptPath = str(self.Path(self.__main__.__file__)).replace(f"{self.Path(self.__main__.__file__).stem}.py","")
 
                 if "Logs" not in list(os.listdir(self.mainPyScriptPath)):
                     os.mkdir(f"{self.mainPyScriptPath}Logs")
                     folderCreationFlag = True
 
-                fileHandler = self.logging.FileHandler(f"{self.mainPyScriptPath}/Logs/{str(Path(__main__.__file__).stem)}-{logTime}.log")
-                fileHandler.setFormatter(self.logging.Formatter(self.logFormat if not showLoggerName else logFormatWLoggerName, datefmt=dateFormat))
+                fileHandler = self.logging.FileHandler(f"{self.mainPyScriptPath}/Logs/{str(self.Path(self.__main__.__file__).stem)}-{logTime}.log")
+                fileHandler.setFormatter(self.logging.Formatter(logFormat if not showLoggerName else logFormatWLoggerName, datefmt=dateFormat))
                 fileHandler.setLevel(logLevelList.setdefault(logFileLevel, self.logging.NOTSET))
                 self.logger.addHandler(fileHandler)
 
@@ -141,7 +141,7 @@ class OLogger():
             except Exception:
                 print(self.traceback.format_exc())
 
-        if streamLoggin:
+        if streamLogging:
             streamHandler = self.logging.StreamHandler()
             streamHandler.setFormatter(self.logging.Formatter(logFormat if not showLoggerName else logFormatWLoggerName, datefmt=dateFormat))
             streamHandler.setLevel(logLevelList.setdefault(logStreamLevel, self.logging.NOTSET))
@@ -178,7 +178,7 @@ class OMailLogger():
         dateFormat = "Date: %Y-%m-%d - Time: %H:%M:%S"
 
         if loggerName == "pyScriptName":
-            self.loggerName = f"{str(Path(__main__.__file__).stem)}_Logger"
+            self.loggerName = f"{str(self.Path(self.__main__.__file__).stem)}_Logger"
         else: self.loggerName = loggerName
 
 
