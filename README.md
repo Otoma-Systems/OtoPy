@@ -1,8 +1,8 @@
-![PyPI](https://img.shields.io/pypi/v/OtoPy?label=Package%20Version&logo=PyPi)
-![PyPI - Status](https://img.shields.io/pypi/status/OtoPy?logo=pypi)
-![PyPI - Format](https://img.shields.io/pypi/format/OtoPy?logo=pypi)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/OtoPy?logo=pypi)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Otoma-Systems/OtoPy?color=6020A5&label=Latest%20Release&logo=github)
+[![PyPI](https://img.shields.io/pypi/v/OtoPy?label=Package&logo=PyPi)](https://pypi.org/project/OtoPy/)
+[![PyPI - Status](https://img.shields.io/pypi/status/OtoPy?logo=pypi)](https://pypi.org/project/OtoPy/)
+[![PyPI - Format](https://img.shields.io/pypi/format/OtoPy?logo=pypi)](https://pypi.org/project/OtoPy/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/OtoPy?logo=pypi)](https://pypi.org/project/OtoPy/)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Otoma-Systems/OtoPy?color=6020A5&label=Release&logo=github)](https://github.com/Otoma-Systems/OtoPy/releases)
 [![Build Status](https://github.com/Otoma-Systems/OtoPy/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Otoma-Systems/OtoPy/actions)
 
 # OtoPy
