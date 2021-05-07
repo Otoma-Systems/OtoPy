@@ -1,4 +1,4 @@
 build
 dist
 OtoPy.egg-info
-/OtoPy/__pycache__/
+/OtoPy/__pycache__
