@@ -159,3 +159,40 @@ class OLogger():
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
 
+class OMailLogger():
+    import logging
+    from logging.handlers import SMTPHandler
+    from pathlib import Path
+    import __main__
+    import traceback
+    from datetime import datetime
+
+    logFormat = "%(asctime)s:%(msecs)d -- %(levelname)s -- %(message)s"
+    logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
+    dateFormat = "%Y-%m-%d|%H:%M:%S"
+    logTime = datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
+    mainPyScriptName = str(Path(__main__.__file__).stem)
+    mainPyScriptPath = str(Path(__main__.__file__)).replace(f"{Path(__main__.__file__).stem}.py","")
+
+    def __init__(self, *, loggerName = mainPyScriptName, loggingLevel = "NOTSET", showLoggerName = False):
+        self.logging.getLogger().setLevel(self.logging.NOTSET)
+        self.smtpLogger = self.logging.getLogger(f"{loggerName}_Logger" if loggerName == self.mainPyScriptName else loggerName)
+        self.smtpLogger.setLevel(self.logging.NOTSET)
+        self.smtpLogger.propagate = False
+
+        logLevelList = {
+            "NOTSET": self.logging.NOTSET,
+            "DEBUG": self.logging.DEBUG,
+            "INFO": self.logging.INFO,
+            "WARNING": self.logging.WARNING,
+            "ERROR": self.logging.ERROR,
+            "CRITICAL": self.logging.CRITICAL
+        }
+
+        smtpHandler = self.SMTPHandler(("smtp.gmail.com",587), "otoma.systems@gmail.com", "mathwintruffac@gmail.com", "just a teste of the smtp handler in logging", ("otoma.systems@gmail.com", "Otoma197346"), ())
+        self.smtpLogger.addHandler(smtpHandler)
+
+    def SendEmail(self):
+        self.smtpLogger.warning("corpo da mensagem?")
+
+    
