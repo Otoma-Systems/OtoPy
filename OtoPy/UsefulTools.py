@@ -1,3 +1,6 @@
+from logging import log
+
+
 class OProgressBar():
     def __init__(
         self,
@@ -92,6 +95,7 @@ class OLogger():
     import __main__
     import traceback
     from datetime import datetime
+    loggersDatabase = []
     
 
     def __init__(self, *, streamLogging = True, fileLogging = False, loggerName = "pyScriptName", logFileLevel = "NOTSET", logStreamLevel = "NOTSET", showLoggerName = False):
@@ -99,9 +103,17 @@ class OLogger():
         logFormatWLoggerName = "%(asctime)s:%(msecs)d -- %(name)s: %(levelname)s -- %(message)s"
         dateFormat = "%Y-%m-%d|%H:%M:%S"
         logTime = self.datetime.now().strftime("[%Y-%m-%d]-[%H-%M-%S]")
+        self.logFilePath = "No log file created yet"
+        self.logFileContent = "No log file created yet"
 
         if loggerName == "pyScriptName":
-            self.loggerName = f"{str(self.Path(self.__main__.__file__).stem)}_Logger"
+            loggerName = f"{str(self.Path(self.__main__.__file__).stem)}_Logger"
+        loggerNumber = 0
+        while [loggerName, loggerNumber] in self.loggersDatabase:
+            loggerNumber += 1
+        self.loggersDatabase.append([loggerName, loggerNumber])
+        if not loggerNumber == 0:
+            self.loggerName = f"{loggerName}_{loggerNumber}"
         else: self.loggerName = loggerName
 
 
@@ -130,7 +142,8 @@ class OLogger():
                     os.mkdir(f"{self.mainPyScriptPath}Logs")
                     folderCreationFlag = True
 
-                fileHandler = self.logging.FileHandler(f"{self.mainPyScriptPath}/Logs/{str(self.Path(self.__main__.__file__).stem)}-{logTime}.log")
+                self.logFilePath = f"{self.mainPyScriptPath}/Logs/{str(self.Path(self.__main__.__file__).stem)}-{logTime}.log"
+                fileHandler = self.logging.FileHandler(self.logFilePath)
                 fileHandler.setFormatter(self.logging.Formatter(logFormat if not showLoggerName else logFormatWLoggerName, datefmt=dateFormat))
                 fileHandler.setLevel(logLevelList.setdefault(logFileLevel, self.logging.NOTSET))
                 self.logger.addHandler(fileHandler)
@@ -162,6 +175,14 @@ class OLogger():
     def LogExceptError(self, errorMessege = ""):
         self.logger.critical(f"{errorMessege} - {self.traceback.format_exc()}")  
 
+    def ReturnLogFileContent(self):
+        if not self.logFilePath == "No log file created yet":
+            with open(self.logFilePath, "r") as logFile:
+                self.logFileContent = logFile.read()
+
+        return f"Current log file: {self.logFilePath}\n\nLog file content:\n{self.logFileContent}"
+
+
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 class OMailLogger():
@@ -171,6 +192,7 @@ class OMailLogger():
     import __main__
     import traceback
     from datetime import datetime
+    mailLoggersDatabase = []
 
     def __init__(self, toAddrs, subject, *, loggerName = "pyScriptName", showLoggerName = False, loggingLevel = "NOTSET", configDict = "defaultConfig"):
         logFormat = "%(asctime)s -- %(levelname)s:\n\n%(message)s"
@@ -178,8 +200,16 @@ class OMailLogger():
         dateFormat = "Date: %Y-%m-%d - Time: %H:%M:%S"
 
         if loggerName == "pyScriptName":
-            self.loggerName = f"{str(self.Path(self.__main__.__file__).stem)}_Logger"
+            loggerName = str(self.Path(self.__main__.__file__).stem)
+        loggerName = f"{loggerName}_MailLogger"
+        loggerNumber = 0
+        while [loggerName, loggerNumber] in self.mailLoggersDatabase:
+            loggerNumber += 1
+        self.mailLoggersDatabase.append([loggerName, loggerNumber])
+        if not loggerNumber == 0:
+            self.loggerName = f"{loggerName}_{loggerNumber}"
         else: self.loggerName = loggerName
+
 
 
         self.logging.getLogger().setLevel(self.logging.NOTSET)
@@ -223,7 +253,7 @@ class OMailLogger():
     def SendErrorEmail(self, mailBody = "Error Email"):
         self.smtpLogger.error(mailBody)
 
-    def SendExceptionErrorEmail(self, mailBody = "Exception Error Email"):
+    def SendExceptionErrorEmail(self, mailBody = "Exception Error Email:"):
         self.smtpLogger.critical(f"{mailBody}\n{self.traceback.format_exc()}")
 
     
