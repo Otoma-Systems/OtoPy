@@ -2,5 +2,7 @@ build
 dist
 Logs
 OtoPy.egg-info
+*.pyc
+__pycache__/
 /OtoPy/__pycache__
 /OtoPy/Testing.py
