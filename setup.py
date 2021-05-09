@@ -9,7 +9,7 @@ OtoPyVersion = (
 )
 assert "." in OtoPyVersion
 
-with open("/OtoPy/VERSION", "w") as VFile:
+with open("OtoPy/OtoPy/VERSION", "w") as VFile:
     VFile.write(OtoPyVersion)
 
 with open("README.md", "r", encoding="utf-8") as READMEfile:
