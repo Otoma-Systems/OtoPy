@@ -1,19 +1,12 @@
 """
 OtoPy.
 
-A Otoma Systems developed Lib, Containing useful Tools.
+A Otoma Systems developed Lib Containing useful Tools and More.
 """
 
-import subprocess
-import os
-
-OtoPyVersion = (
-    subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
-    .stdout.decode("utf-8")
-    .strip()
-)
-assert "." in OtoPyVersion
+with open("VERSION", "r") as VFile:
+    OtoPyVersion = VFile.read()
 
 __version__ = OtoPyVersion
 __author__ = 'Otoma Systems'
-__name__="OtoPy"
+__name__= 'OtoPy'
