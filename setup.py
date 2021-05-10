@@ -1,5 +1,6 @@
 from setuptools import setup
 import subprocess
+from pathlib import Path
 
 OtoPyVersion = (
     subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
@@ -7,6 +8,10 @@ OtoPyVersion = (
     .strip()
 )
 assert "." in OtoPyVersion
+
+VFile = str(Path(__file__)).replace(f"{Path(__file__).stem}.py","OtoPy/VERSION")
+with open(VFile,"w") as file:
+    file.write(OtoPyVersion)
 
 with open("README.md", "r", encoding="utf-8") as READMEfile:
     long_description = READMEfile.read()
@@ -22,6 +27,7 @@ setup(
     author_email='contact@otoma.com.br',
     license='BSD 2-clause',
     packages=['OtoPy'],
+    package_data={'OtoPy':['VERSION']},
     install_requires=[],
 
     classifiers=[
