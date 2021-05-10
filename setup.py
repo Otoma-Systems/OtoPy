@@ -1,6 +1,6 @@
 from setuptools import setup
 import subprocess
-import os
+from pathlib import Path
 
 OtoPyVersion = (
     subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
@@ -9,8 +9,9 @@ OtoPyVersion = (
 )
 assert "." in OtoPyVersion
 
-with open("OtoPy/OtoPy/VERSION", "w") as VFile:
-    VFile.write(OtoPyVersion)
+VFile = str(Path(__file__)).replace(f"{Path(__file__).stem}.py","OtoPy/VERSION")
+with open(VFile,"w") as file:
+    file.write(OtoPyVersion)
 
 with open("README.md", "r", encoding="utf-8") as READMEfile:
     long_description = READMEfile.read()
