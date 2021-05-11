@@ -194,8 +194,15 @@ class OMailLogger():
     from datetime import datetime
     mailLoggersDatabase = []
 
-    def __init__(self, toAddrs, subject, *, loggerName = "pyScriptName", showLoggerName = False, loggingLevel = "NOTSET", configDict = "defaultConfig"):
-        logFormat = "%(asctime)s -- %(levelname)s:\n\n%(message)s"
+    def __init__(self, toAddrs, subject, *, loggerName = "pyScriptName", showLoggerName = False, loggingLevel = "NOTSET", configDict = "defaultConfig", messageFormat = "default"):
+        messageFormatDict = {
+            "default": "%(asctime)s -- %(levelname)s:\n\n",
+            "dateTime": "%(asctime)s:\n\n",
+            "levelName": "%(levelname)s:\n\n",
+            "clean": "",
+        }
+        
+        logFormat = messageFormatDict.setdefault(messageFormat, "%(asctime)s -- %(levelname)s:\n\n")+"%(message)s"
         logFormatWLoggerName = "%(asctime)s -- %(name)s - %(levelname)s:\n\n%(message)s"
         dateFormat = "Date: %Y-%m-%d - Time: %H:%M:%S"
 
