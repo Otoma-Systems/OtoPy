@@ -15,11 +15,11 @@ ___
 ## Installation
   #### New Instalation:
 ```
-pip install OtoPy
+pip install OtoPy.
 ```
   #### Update Package:
 ```
-pip install --upgrade OtoPy
+pip install --upgrade OtoPy.
 ```
 ___
 
