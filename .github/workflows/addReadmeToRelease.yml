@@ -18,5 +18,5 @@ jobs:
         
         with:
           file: "README.md"
-          tags: false
+          tags: true
           draft: false
