@@ -6,14 +6,16 @@ on:
     types: [created]
 
 jobs:
-  deploy:
 
+  deploy:
+  
     runs-on: ubuntu-latest
-      
-    uses: xresloader/upload-to-github-release@v1.3.4
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with:
-      file: "*.md"
-      tags: true
-      draft: true
+    steps:
+      - uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+        with:
+          file: "*.md"
+          tags: true
+          draft: false
