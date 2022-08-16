@@ -16,6 +16,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
         with:
-          file: "*.md"
+          file: "README.md"
           tags: false
           draft: false
