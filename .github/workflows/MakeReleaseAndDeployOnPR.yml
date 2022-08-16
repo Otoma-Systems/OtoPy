@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Make Release on PR
+name: Make Release And Deploy On PR.yml
 
 # Controls when the workflow will run
 on:
@@ -12,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  Make Release:
+  MakeRelease:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
 
@@ -31,9 +31,9 @@ jobs:
           draft: false
           tag_name: ${{ github.event.pull_request.title }}
 
-  Deploy and update Release:
+  DeployAndUpdateRelease:
 
-    needs: Make Release
+    needs: MakeRelease
     runs-on: ubuntu-latest
 
     steps:
