@@ -17,6 +17,7 @@ jobs:
 
     - name: testGitWTKey
       run: |
+        git pull
         git tag
         git tag
     
