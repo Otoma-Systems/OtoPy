@@ -17,5 +17,5 @@ jobs:
         
         with:
           file: "*.md"
-          tags: true
+          tags: false
           draft: false
