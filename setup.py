@@ -6,9 +6,10 @@ OtoPyVersion = (
     subprocess.run(["git", "tag"], stdout=subprocess.PIPE)
     .stdout.decode("utf-8")
     .strip()
-    .split()[-2]
-    .split("v")[-1]
+    #.split()[-2]
+    #.split("v")[-1]
 )
+print(OtoPyVersion)
 assert "." in OtoPyVersion
 
 VFile = str(Path(__file__)).replace(f"{Path(__file__).stem}.py","OtoPy/VERSION")
