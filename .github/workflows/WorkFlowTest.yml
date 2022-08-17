@@ -1,0 +1,19 @@
+name: WorkFlow Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+  
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+<<<<<<< HEAD
+=======
+      - name: TestGit
+>>>>>>> b6c89fa34ea924fd253ca04af04605baab767f7f
+        run: |
+          git pull
+          git describe --tags
