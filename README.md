@@ -3,8 +3,7 @@
 [![PyPI - Format](https://img.shields.io/pypi/format/OtoPy?logo=pypi)](https://pypi.org/project/OtoPy/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/OtoPy?logo=pypi)](https://pypi.org/project/OtoPy/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Otoma-Systems/OtoPy?color=6020A5&label=Release&logo=github)](https://github.com/Otoma-Systems/OtoPy/releases)
-[![Build Status](https://github.com/Otoma-Systems/OtoPy/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Otoma-Systems/OtoPy/actions)
-
+[![Make Release And Deploy On PR.yml](https://github.com/Otoma-Systems/OtoPy/actions/workflows/MakeReleaseAndDeployOnPR.yml/badge.svg)](https://github.com/Otoma-Systems/OtoPy/actions/workflows/MakeReleaseAndDeployOnPR.yml)
 # OtoPy
 
 ## Contents
