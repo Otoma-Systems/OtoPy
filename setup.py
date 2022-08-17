@@ -6,7 +6,7 @@ OtoPyVersion = (
     subprocess.run(["git", "tag"], stdout=subprocess.PIPE)
     .stdout.decode("utf-8")
     .strip()
-    .split()[0]
+    .split()[-1]
     .split("v")[-1]
 )
 assert "." in OtoPyVersion
