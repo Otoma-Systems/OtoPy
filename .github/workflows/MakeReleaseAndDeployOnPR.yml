@@ -52,6 +52,7 @@ jobs:
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        GET_RELEASE_NAME_AUTH_TOKEN: ${{ secrets.GET_RELEASE_NAME_AUTH_TOKEN }}
       run: |
         git pull
         python setup.py sdist bdist_wheel
