@@ -28,7 +28,7 @@ setup(
     long_description_content_type="text/markdown",
     url='https://github.com/Otoma-Systems/OtoPy.git',
     author='Otoma Systems',
-    author_email='opensource@otoma.solution',
+    author_email='opensource@otoma.com.br',
     license='BSD 2-clause',
     packages=['OtoPy'],
     package_data={'OtoPy':['VERSION']},
