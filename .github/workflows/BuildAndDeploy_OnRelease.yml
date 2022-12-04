@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Make Release And Deploy On PR.yml
+name: Build and Deploy on Release
 
 # Controls when the workflow will run
 on:
@@ -45,4 +45,4 @@ jobs:
         overwrite: true
         draft: false
         tag_name: ${{ github.event.release.tag_name }}
-        
+
