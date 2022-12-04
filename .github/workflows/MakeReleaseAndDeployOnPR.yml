@@ -4,36 +4,13 @@ name: Make Release And Deploy On PR.yml
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push request events but only for the "main" branch
-  pull_request:
-    types: [ "closed" ]
-    branches: [ "main" ]
+  release:
+    types: [published]
 
+run-name: Release ${{ github.event.release.tag_name }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  MakeRelease:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      - name: Create Release with readme
-        uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "README.md"
-          overwrite: true
-          draft: false
-          tag_name: ${{ github.event.pull_request.title }}
-
   DeployAndUpdateRelease:
-
-    needs: MakeRelease
     runs-on: ubuntu-latest
 
     steps:
@@ -67,4 +44,5 @@ jobs:
         file: "dist/*"
         overwrite: true
         draft: false
-        tag_name: ${{ github.event.pull_request.title }}
+        tag_name: ${{ github.event.release.tag_name }}
+        

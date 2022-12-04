@@ -26,10 +26,10 @@ class OProgressBar():
         percent = ("{0:." + str(self.decimalPlaces) + "f}").format(100 * (progressState / float(self.completeState)))
         filledLength = int(self.length * progressState // self.completeState)
         bar = self.fill * filledLength + '-' * (self.length - filledLength)
-        print(f'\r{self.prefix} |{bar}| {percent}% {self.suffix}', end = self.printEnd)
-        # Print New Line on Complete
         if progressState == self.completeState: 
-            print()
+            print(f'\r{self.prefix} |{bar}| {percent}% {self.suffix}')
+        else:
+            print(f'\r{self.prefix} |{bar}| {percent}% {self.suffix}', end = self.printEnd)
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 class OTimedProgressBar():
@@ -48,7 +48,8 @@ class OTimedProgressBar():
         printEnd= "\r",
         Etc = False,
         EtcText = "Etc: ",
-        elapsedTimeText = "Elapsed Time: "
+        elapsedTimeText = "Elapsed Time: ",
+        stdout = True
     ):
 
         self.completeState = completeState
@@ -64,11 +65,13 @@ class OTimedProgressBar():
         self.InitialTime = self.timer()
         self.Etc = Etc
         self.lastElapsedTime = "!No time registred yet!"
+        self.stdout = stdout
 
     def PrintProgress(self, progressState):
         if self.FirstTime: 
             self.InitialTime = self.timer()
             self.FirstTime = False
+            self.lastCompleteState = ""
             EtcTime = None
         else:
             EtcTime = (((self.timedelta(seconds=self.timer()-self.InitialTime))/progressState)*(self.completeState-progressState))
@@ -76,13 +79,15 @@ class OTimedProgressBar():
         percent = ("{0:." + str(self.decimalPlaces) + "f}").format(100 * (progressState / float(self.completeState)))
         filledLength = int(self.length * progressState // self.completeState)
         bar = self.fill * filledLength + '-' * (self.length - filledLength)
-        print(f'\r{self.prefix}|{bar}| {percent}% {self.suffix} | {(self.EtcText+str(EtcTime)) if self.Etc else ""}', end = self.printEnd)
+        if self.stdout: print(f'\r{self.prefix}|{bar}| {percent}% {self.suffix} | {(self.EtcText+str(EtcTime)) if self.Etc else ""}', end = self.printEnd)
         
         # Print New Line on Complete
         if progressState == self.completeState: 
             self.lastElapsedTime = self.timer()-self.InitialTime
-            print(f'\r{self.prefix}|{self.fill*self.length}| 100% {self.suffix} | {self.elapsedTimeText}{self.timedelta(seconds=self.lastElapsedTime)}\n')
+            self.lastCompleteState = f'\r{self.prefix}|{self.fill*self.length}| 100% {self.suffix} | {self.elapsedTimeText}{self.timedelta(seconds=self.lastElapsedTime)}'
+            if self.stdout: print(self.lastCompleteState)
             self.FirstTime = True
+            return self.lastCompleteState
 
     def GetLasElapsedTime(self):
         return self.lastElapsedTime

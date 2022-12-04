@@ -13,9 +13,9 @@ OtoPyVersion = get(url, headers=header).json().get("tag_name").split("v")[-1]
 
 assert "." in OtoPyVersion
 
-VFile = str(Path(__file__)).replace(f"{Path(__file__).stem}.py","OtoPy/VERSION")
-with open(VFile,"w") as file:
-    file.write(OtoPyVersion)
+VFile = str(Path(__file__)).replace(f"{Path(__file__).stem}.py","OtoPy/__init__.py")
+with open(VFile,"a") as file:
+    file.write(f"\n__version__ = '{OtoPyVersion}'")
 
 with open("README.md", "r", encoding="utf-8") as READMEfile:
     long_description = READMEfile.read()
