@@ -87,8 +87,9 @@ class OTimedProgressBar():
             self.lastCompleteState = f'\r{self.prefix}|{self.fill*self.length}| 100% {self.suffix} | {self.elapsedTimeText}{self.timedelta(seconds=self.lastElapsedTime)}'
             if self.stdout: print(self.lastCompleteState)
             self.FirstTime = True
-            return self.lastCompleteState
 
+    def GetLastCompletedState(self):
+        return self.lastCompleteState
     def GetLasElapsedTime(self):
         return self.lastElapsedTime
 
